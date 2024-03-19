@@ -1,4 +1,4 @@
-package com.example.maps_app.view
+package com.example.maps_app.ui.screens
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -9,10 +9,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.maps_app.model.BotomNavigation.BottomNavigation
+import com.example.maps_app.navigation.BottomNavigation
 
 @Composable
-fun MyBottomBar(nav: NavHostController, items: List<BottomNavigation>) {
+fun MyBottomBarNavigation(nav: NavHostController, items: List<BottomNavigation>) {
     BottomNavigation(backgroundColor = Color.LightGray) {
         val navBackStackEntry by nav.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

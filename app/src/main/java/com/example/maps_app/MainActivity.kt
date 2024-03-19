@@ -8,13 +8,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.maps_app.ViewModel.MyViewModel
-import com.example.maps_app.model.Navigation.Routes
-import com.example.maps_app.view.ListaMarcadoresView.ScreenListMarker
-import com.example.maps_app.view.LoginView.ScreenLogin
-import com.example.maps_app.view.MapaView.ScreenMaps
-import com.example.maps_app.view.MarcadoresAddView.ScreenAddMarcadores
-import com.example.maps_app.view.MenuView.ScreenMenu
-import com.example.maps_app.view.SplachView.SplashScreen
+import com.example.maps_app.navigation.Routes
+import com.example.maps_app.ui.screens.ScreenListMarker
+import com.example.maps_app.ui.screens.ScreenLogin
+import com.example.maps_app.ui.screens.ScreenMaps
+import com.example.maps_app.ui.screens.ScreenAddMarcadores
+import com.example.maps_app.ui.screens.ScreenMenu
+import com.example.maps_app.ui.screens.SplashScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

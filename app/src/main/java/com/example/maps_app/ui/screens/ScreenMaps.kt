@@ -1,4 +1,4 @@
-package com.example.maps_app.view.MapaView
+package com.example.maps_app.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.maps_app.ViewModel.MyViewModel
-import com.example.maps_app.model.BotomNavigation.BottomNavigation
-import com.example.maps_app.view.MyBottomBar
+import com.example.maps_app.navigation.BottomNavigation
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -30,7 +29,7 @@ fun ScreenMaps(navigation: NavHostController, myViewModel: MyViewModel) {
     val titulo = "Google Maps"
     Scaffold(
         topBar = { TopBarMap( titulo, myViewModel ) },
-        bottomBar = { MyBottomBar( navigation , bottomNavigationItem)  }
+        bottomBar = { MyBottomBarNavigation( navigation , bottomNavigationItem)  }
     ){
         Box(
             modifier = Modifier

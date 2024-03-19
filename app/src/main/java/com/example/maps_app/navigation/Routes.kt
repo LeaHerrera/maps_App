@@ -1,4 +1,4 @@
-package com.example.maps_app.model.Navigation
+package com.example.maps_app.navigation
 
 
 sealed class Routes(val route: String) {

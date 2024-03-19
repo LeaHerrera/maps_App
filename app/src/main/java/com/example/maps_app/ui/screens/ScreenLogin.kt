@@ -1,4 +1,4 @@
-package com.example.maps_app.view.LoginView
+package com.example.maps_app.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.maps_app.R
 import com.example.maps_app.ViewModel.MyViewModel
-import com.example.maps_app.model.Navigation.Routes
+import com.example.maps_app.navigation.Routes
 
 @Composable
 fun ScreenLogin(navigation: NavHostController, myViewModel: MyViewModel) {

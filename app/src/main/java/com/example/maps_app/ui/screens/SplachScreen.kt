@@ -1,4 +1,4 @@
-package com.example.maps_app.view.SplachView
+package com.example.maps_app.ui.screens
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -22,8 +22,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.maps_app.R
-import com.example.maps_app.model.Navigation.Routes
+import com.example.maps_app.navigation.Routes
 import kotlinx.coroutines.delay
+
+@Composable
+fun SplashScreen(navController: NavController) {
+    var startAnimation by remember { mutableStateOf(false) }
+    val alphaAnim = animateFloatAsState(
+        targetValue = if (startAnimation) 1f else 0f,
+        animationSpec = tween(durationMillis = 5000), label = ""
+    )
+    LaunchedEffect(key1 = true) {
+        startAnimation = true
+        delay(5500)
+        navController.popBackStack()
+        navController.navigate(Routes.PantallaLogin.route)
+    }
+    Splash(alphaAnim.value)
+}
 
 @Composable
 fun Splash(alphaAnim: Float) {
@@ -42,21 +58,5 @@ fun Splash(alphaAnim: Float) {
         Text(text = "¡!", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
 
     }
-}
-
-@Composable
-fun SplashScreen(navController: NavController) {
-    var startAnimation by remember { mutableStateOf(false) }
-    val alphaAnim = animateFloatAsState(
-        targetValue = if (startAnimation) 1f else 0f,
-        animationSpec = tween(durationMillis = 5000), label = ""
-    )
-    LaunchedEffect(key1 = true) {
-        startAnimation = true
-        delay(5500)
-        navController.popBackStack()
-        navController.navigate(Routes.PantallaLogin.route)
-    }
-    Splash(alphaAnim.value)
 }
 
