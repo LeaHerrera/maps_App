@@ -76,6 +76,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.2.0")
     //BOTTOM BAR
     implementation("androidx.compose.material:material:1.6.2")
+    //PERMISSION
+    implementation("com.google.accompanist:accompanist-permissions:0.28.0")
+
 
 }
 
