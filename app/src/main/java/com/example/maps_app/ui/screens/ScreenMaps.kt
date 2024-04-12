@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,6 +32,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import com.example.maps_app.MainActivity
 import com.example.maps_app.ViewModel.MyViewModel
+import com.example.maps_app.model.DataMarker
 import com.example.maps_app.navigation.BottomNavigation
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -120,7 +123,7 @@ fun Maps( myViewModel: MyViewModel ){
             cameraPositionState =  cameraPositionState,
             onMapLongClick = {
                 myViewModel.showMarker(true)
-                myViewModel.setLatLngByActualMarker(it)
+                myViewModel.setCordenadasByMarker(it)
             }
         ){
             Marker(
@@ -134,9 +137,12 @@ fun Maps( myViewModel: MyViewModel ){
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CrearMarker( myViewModel: MyViewModel){
-    if (myViewModel.showMarker){
+    val show: Boolean by myViewModel.showMarker.observeAsState(initial = false)
+
+    if (show){
         Dialog(
             onDismissRequest = { myViewModel.showMarker(false) },
             properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
@@ -147,7 +153,20 @@ fun CrearMarker( myViewModel: MyViewModel){
                     .padding(24.dp)
                     .fillMaxWidth(0.9f))
             {
-                Text(text = "This is my dialog")
+                val marker:DataMarker by myViewModel.marker.observeAsState(initial = DataMarker("","", LatLng(0.0,0.0)) )
+
+                TextField(
+                    value = marker.title,
+                    onValueChange = { myViewModel.setTitleByMarker(it) },
+                    label = { Text(text = "Enter your name") }
+                )
+                TextField(
+                    value = marker.subTitle,
+                    onValueChange = { myViewModel.setSubTitleByMarker(it) },
+                    label = { Text(text = "Enter your name") }
+                )
+
+
             }
         }
     }

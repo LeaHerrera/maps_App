@@ -68,7 +68,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    //NAVIFATION
+    //NAVIGATION
     implementation("androidx.navigation:navigation-compose:2.7.5")
     //MAPP
     implementation("com.google.maps.android:maps-compose:2.11.4")
@@ -78,6 +78,8 @@ dependencies {
     implementation("androidx.compose.material:material:1.6.2")
     //PERMISSION
     implementation("com.google.accompanist:accompanist-permissions:0.28.0")
+    //LIVE DATA
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.5")
 
 
 }
