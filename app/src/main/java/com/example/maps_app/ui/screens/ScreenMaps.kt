@@ -6,13 +6,13 @@ import android.location.Location
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -33,28 +33,26 @@ import androidx.navigation.NavHostController
 import com.example.maps_app.MainActivity
 import com.example.maps_app.ViewModel.MyViewModel
 import com.example.maps_app.model.DataMarker
-import com.example.maps_app.navigation.BottomNavigation
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.delay
 
 
 @RequiresApi(34)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
+@OptIn( ExperimentalPermissionsApi::class)
 @Composable
 fun ScreenMaps(navigation: NavHostController, myViewModel: MyViewModel) {
 
-    val bottomNavigationItem = listOf(
-        BottomNavigation.Home,
-        BottomNavigation.Favorite
-    )
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.ACCESS_FINE_LOCATION
     )
@@ -62,30 +60,13 @@ fun ScreenMaps(navigation: NavHostController, myViewModel: MyViewModel) {
         permissionState.launchPermissionRequest()
     }
 
-    val titulo = "Google Maps"
-    Scaffold(
-        topBar = { TopBarMap( titulo, myViewModel ) },
-        bottomBar = { MyBottomBarNavigation( navigation , bottomNavigationItem)  }
-    ){
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues = it)
-        ){
-            if (permissionState.status.isGranted){
-                Maps(myViewModel)
-            } else {
-                Maps(myViewModel)
-            }
-        }
-    }
-
+    GeneralyScaffold(navigation = navigation, myViewModel = myViewModel)
 }
 
 @RequiresApi(34)
 @SuppressLint("MissingPermission")
 @Composable
-fun Maps( myViewModel: MyViewModel ){
+fun CompositionFromMaps(myViewModel: MyViewModel ){
 
     val context = LocalContext.current
     val fusedLocationProviderClient = remember {
@@ -107,7 +88,6 @@ fun Maps( myViewModel: MyViewModel ){
             lastKnownLocation = task.result
             deviceLatLng = LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
             cameraPositionState.position = CameraPosition.fromLatLngZoom(deviceLatLng, 15f)
-
         } else {
             Log.e("Error","Exeption %s", task.exception)
         }
@@ -117,7 +97,23 @@ fun Maps( myViewModel: MyViewModel ){
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize(),
     ){
+        Maps(myViewModel = myViewModel, cameraPositionState = cameraPositionState)
+        CrearMarker( myViewModel = myViewModel)
+    }
 
+}
+
+@Composable
+fun Maps(myViewModel: MyViewModel, cameraPositionState: CameraPositionState){
+    val show: Boolean by myViewModel.showLoading.observeAsState(initial = false)
+
+    if (show){
+        LaunchedEffect(key1 = Unit) {
+            delay(1000L)
+            myViewModel.loadingStop()
+        }
+        Cargando()
+    } else {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
             cameraPositionState =  cameraPositionState,
@@ -126,13 +122,15 @@ fun Maps( myViewModel: MyViewModel ){
                 myViewModel.setCordenadasByMarker(it)
             }
         ){
-            Marker(
-                state = MarkerState(),
-                title = "",
-                snippet = ""
-            )
+            myViewModel.getMarkers().forEach {marker ->
+                Marker(
+                    state = MarkerState(marker.latLng),
+                    title = marker.title,
+                    snippet = marker.subTitle
+                )
+            }
+
         }
-        CrearMarker( myViewModel = myViewModel)
     }
 
 }
@@ -158,13 +156,29 @@ fun CrearMarker( myViewModel: MyViewModel){
                 TextField(
                     value = marker.title,
                     onValueChange = { myViewModel.setTitleByMarker(it) },
-                    label = { Text(text = "Enter your name") }
+                    label = { Text(text = "Introduce un Titulo") }
                 )
                 TextField(
                     value = marker.subTitle,
                     onValueChange = { myViewModel.setSubTitleByMarker(it) },
-                    label = { Text(text = "Enter your name") }
+                    label = { Text(text = "Introduce un subtitulo") }
                 )
+                Row {
+                    Button(
+                        onClick = {
+                            myViewModel.setMarker()
+                            myViewModel.showMarker(false)
+                        }
+                    ){
+                        Text(text = "Confirmar")
+                    }
+                    Button(onClick = {
+                        myViewModel.showMarker(false)
+                        myViewModel.loadingStop()
+                    }) {
+                        Text(text = "Cancelar")
+                    }
+                }
 
 
             }
