@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -80,6 +83,18 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.28.0")
     //LIVE DATA
     implementation("androidx.compose.runtime:runtime-livedata:1.6.5")
+    //CAMERA
+    implementation("androidx.camera:camera-core:1.3.2")
+    implementation("androidx.camera:camera-camera2:1.3.2")
+    implementation("androidx.camera:camera-lifecycle:1.3.2")
+    implementation("androidx.camera:camera-view:1.3.2")
+    implementation("androidx.camera:camera-extensions:1.3.2")
+    //ICONS
+    implementation("androidx.compose.material:material-icons-extended:1.6.3")
+    // Import the FIREBASE BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+
+
 
 
 }

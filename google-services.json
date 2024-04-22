@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1072772930191",
+    "project_id": "fluent-outlet-416410",
+    "storage_bucket": "fluent-outlet-416410.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072772930191:android:aeb6d6df7b2fa08e56aefa",
+        "android_client_info": {
+          "package_name": "com.example.maps_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYNUFW9WI7RLgooIp1MlPZ5Sq93DiZHYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
