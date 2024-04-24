@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -139,6 +140,13 @@ fun Maps(myViewModel: MyViewModel, cameraPositionState: CameraPositionState){
 @Composable
 fun CrearMarker( myViewModel: MyViewModel){
     val show: Boolean by myViewModel.showMarker.observeAsState(initial = false)
+    val isCameraPermissionGranted by myViewModel.cameraPermissionGranted.observeAsState(false)
+    val showPermissionDenied by myViewModel.showPermissionDenied.observeAsState(false)
+
+    val laucher = rememberLauncherForActivityResult(
+        contract = Acti,
+        onResult =
+    )
 
     if (show){
         Dialog(
@@ -178,13 +186,20 @@ fun CrearMarker( myViewModel: MyViewModel){
                     }) {
                         Text(text = "Cancelar")
                     }
+                    Button(onClick = {
+                        if(!isCameraPermissionGranted) {
+                            launcher.launch(Manifest.permission.CAMERA)
+                        }else {
+                            navController.navigate(Routes.TakePhotoScreen.route)
+                        }
+                        if (showPermissionDenied) navController.navigate(Routes.PermissionDeclinedScreen.route)
+                    }) {
+                        Icon(Icons.Filled.CameraAlt, "Location Icon" )
+                    }
                 }
-
-
             }
         }
     }
-
 
 }
 
