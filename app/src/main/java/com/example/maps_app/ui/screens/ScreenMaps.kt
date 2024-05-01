@@ -32,6 +32,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavHostController
 import com.example.maps_app.MainActivity
 import com.example.maps_app.ViewModel.MyViewModel
+import com.example.maps_app.ViewModel.ViewModelFireBase
 import com.example.maps_app.model.DataMarker
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
@@ -43,15 +44,17 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import kotlinx.coroutines.Delay
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.delay
 
 
 @RequiresApi(34)
 @OptIn( ExperimentalPermissionsApi::class)
 @Composable
-fun ScreenMaps(navigation: NavHostController, myViewModel: MyViewModel) {
+fun ScreenMaps(
+    navigation: NavHostController,
+    FireBase: ViewModelFireBase,
+    myViewModel: MyViewModel
+) {
 
     val permissionState = rememberPermissionState(
         permission = Manifest.permission.ACCESS_FINE_LOCATION

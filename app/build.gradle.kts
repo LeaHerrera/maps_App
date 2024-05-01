@@ -91,13 +91,13 @@ dependencies {
     implementation("androidx.camera:camera-extensions:1.3.2")
     //ICONS
     implementation("androidx.compose.material:material-icons-extended:1.6.3")
+
     // Import the FIREBASE BoM
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     // FIREBASE - CLOUD FIRESTORE
     implementation("com.google.firebase:firebase-firestore-ktx")
-
-
-
+    // FIREBASE - AUTHENTICATION
+    implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
 
 
 }

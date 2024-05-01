@@ -38,7 +38,7 @@ class Repository {
         return database.collection("users")
     }
 
-    fun getUser(): DocumentReference {
-        return  database.collection("user")
+    fun getUser(userId: String): DocumentReference {
+        return  database.collection("user").document(userId)
     }
 }

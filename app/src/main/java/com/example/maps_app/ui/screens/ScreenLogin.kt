@@ -23,10 +23,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.maps_app.R
 import com.example.maps_app.ViewModel.MyViewModel
+import com.example.maps_app.ViewModel.ViewModelFireBase
 import com.example.maps_app.navigation.Routes
 
 @Composable
-fun ScreenLogin(navigation: NavHostController, myViewModel: MyViewModel) {
+fun ScreenLogin(
+    navigation: NavHostController,
+    FireBase: ViewModelFireBase,
+    myViewModel: MyViewModel
+) {
 
     val tamañoLetra = 40
 
