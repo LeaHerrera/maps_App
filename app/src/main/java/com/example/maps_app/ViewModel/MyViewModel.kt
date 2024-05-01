@@ -1,16 +1,12 @@
 package com.example.maps_app.ViewModel
 
-
-import android.health.connect.datatypes.ExerciseRoute.Location
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.maps_app.model.DataMarker
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.firebase.storage.FirebaseStorage
-import com.google.maps.android.compose.CameraPositionState
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
