@@ -38,9 +38,10 @@ fun GeneralyScaffold(navigation: NavHostController, myViewModel: MyViewModel) {
                 .padding(paddingValues = it)
         ) {
             if (currentRoute == bottomNavigationItem[0].route){
-                CompositionFromMaps(myViewModel = myViewModel)
+                CompositionFromMaps(navigation, myViewModel = myViewModel)
             } else if (currentRoute == bottomNavigationItem[1].route){
-                ListMarker(myViewModel = myViewModel)
+                myViewModel.getFirestoreMarkers()
+                ListMarker(myViewModel = myViewModel, navigation)
             }
         }
     }

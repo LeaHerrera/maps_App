@@ -31,12 +31,23 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
+import androidx.navigation.NavHostController
+import com.example.maps_app.R
 import com.example.maps_app.ViewModel.MyViewModel
+import com.example.maps_app.ViewModel.ViewModelFireBase
+
+/*
+
 
 @SuppressLint("ObsoleteSdkInt")
 @Composable
-fun GalleryScreen(viewModel:MyViewModel, navController: NavController) {
+fun GalleryScreen(
+    navigation: NavHostController,
+    navController: ViewModelFireBase,
+    viewModel: MyViewModel
+) {
     val context = LocalContext.current
     val img: Bitmap? = null
     var bitmap:Bitmap? by remember { mutableStateOf(img) }
@@ -45,7 +56,7 @@ fun GalleryScreen(viewModel:MyViewModel, navController: NavController) {
         contract = ActivityResultContracts.RequestPermission(),
         onResult = {
             if (it){
-                viewModel.cameraPermissionGranted = true
+                viewModel.cameraPermissionGranted(true)
             } else {
                 viewModel.shouldShowPermissionRationale
             }
@@ -77,7 +88,71 @@ fun GalleryScreen(viewModel:MyViewModel, navController: NavController) {
         Button(onClick = {
             if(uri != null) {
                 viewModel.uploadImage(uri!!)
-                navController.navigateUp()
+                navigation.navigateUp()
+                viewModel.returnAgain = true
+            }
+        }) {
+            Text("Confirm Photo")
+        }
+    }
+}
+
+ */
+
+@SuppressLint("ObsoleteSdkInt")
+@Composable
+fun GalleryScreen(
+    navigation: NavHostController,
+    navController: ViewModelFireBase,
+    viewModel: MyViewModel
+) {
+    val context = LocalContext.current
+    val img: Bitmap? = ContextCompat.getDrawable(context, R.drawable.icon_usuario)?.toBitmap()
+    var bitmap:Bitmap? by remember { mutableStateOf(img) }
+    var uri: Uri? by remember { mutableStateOf(null) }
+    val launchImage = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = {
+            uri = it
+            bitmap = if (Build.VERSION.SDK_INT < 28) {
+                MediaStore.Images.Media.getBitmap(context.contentResolver,it)
+            } else {
+                val source = it?.let { itl ->
+                    ImageDecoder.createSource(context.contentResolver, itl)
+                }
+                source?.let { itl ->
+                    ImageDecoder.decodeBitmap(itl)
+                }!!
+            }
+        }
+    )
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+        Button(
+            onClick = {
+                launchImage.launch("image/")
+            }) {
+            Text("Open Gallery")
+        }
+        if (bitmap != null) {
+            Image(
+                bitmap = bitmap!!.asImageBitmap(), contentDescription = null,
+                contentScale = ContentScale.Crop, modifier = Modifier
+                    .clip(CircleShape)
+                    .size(250.dp)
+                    .background(Color.Blue)
+                    .border(width = 1.dp, color = Color.White, shape = CircleShape)
+            )
+        }
+        Button(onClick = {
+            if(uri != null) {
+                viewModel.uploadImage(uri!!)
+                navigation.navigateUp()
                 viewModel.returnAgain = true
             }
         }) {

@@ -99,6 +99,11 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     // FIREBASE - AUTHENTICATION
     implementation ("com.firebaseui:firebase-ui-auth:7.2.0")
+    // FIREBASE - STORAGE
+    implementation ("com.google.firebase:firebase-storage-ktx")
+
+    //STORAGE (mostrar imagen)
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 
 
 }

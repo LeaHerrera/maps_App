@@ -34,16 +34,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.maps_app.ViewModel.MyViewModel
+import com.example.maps_app.ViewModel.ViewModelFireBase
 import com.example.maps_app.navigation.Routes
 import java.io.File
 
 @Composable
-fun ScreenCamera(navController: NavController, viewModel: MyViewModel) {
+fun ScreenCamera(
+    navController: NavHostController,
+    myViewModelFireBase: ViewModelFireBase,
+    viewModel: MyViewModel
+) {
     val context = LocalContext.current
     val controller = remember {
         LifecycleCameraController(context).apply {
-            CameraController.IMAGE_CAPTURE
+            setImageCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
         }
     }
     if (viewModel.returnAgain) {
@@ -51,15 +57,16 @@ fun ScreenCamera(navController: NavController, viewModel: MyViewModel) {
         navController.navigateUp()
     }
     Box(modifier = Modifier.fillMaxSize()) {
-        CameraPreview(controller = controller, modifier = Modifier.fillMaxSize())
+        CameraPreview(controller = controller, modifier = Modifier.fillMaxSize(0.9f))
         IconButton(
             onClick = {
                 controller.cameraSelector =
                     if (controller.cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
                         CameraSelector.DEFAULT_FRONT_CAMERA
-                    }else {
+                    } else {
                         CameraSelector.DEFAULT_BACK_CAMERA
                     }
+
             },
             modifier = Modifier.offset(
                 16.dp,
@@ -81,22 +88,23 @@ fun ScreenCamera(navController: NavController, viewModel: MyViewModel) {
                 modifier = Modifier.fillMaxWidth()
             ){
 
-                IconButton(onClick = { navController.navigate(Routes.GalleryScreen.route) }) {
+                IconButton(onClick = { navController.navigate(Routes.PanttallaGalery.route) }) {
                     Icon(imageVector = Icons.Default.Photo, contentDescription = "Open Gallery")
                 }
                 IconButton(onClick = {
                     viewModel.image.value = null
                     navController.navigateUp() }) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "Open Gallery")
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "close")
                 }
-                IconButton(onClick = {
-                    takePhoto(viewModel,context,controller) {
-                        takePhoto(viewModel,context, controller) {
-                            navController.navigateUp()
+                IconButton(
+                    onClick = {
+                        takePhoto(viewModel,context,controller) {
+                            takePhoto(viewModel,context, controller) {
+                                navController.navigateUp()
+                            }
                         }
                     }
-
-                }) {
+                ) {
                     Icon(Icons.Default.PhotoCamera, contentDescription = "Take photo")
                 }
             }
@@ -104,8 +112,12 @@ fun ScreenCamera(navController: NavController, viewModel: MyViewModel) {
     }
 }
 
-private fun takePhoto(viewModel:MyViewModel, context: Context,
-                      controller: LifecycleCameraController, onPhotoTaken: (Uri) -> Unit) {
+private fun takePhoto(
+    viewModel:MyViewModel,
+    context: Context,
+    controller: LifecycleCameraController,
+    onPhotoTaken: (Uri) -> Unit
+){
     val outputDirectory = File(context.filesDir, "photos") // Directorio donde se guardará la imagen
     if (!outputDirectory.exists()) {
         outputDirectory.mkdirs()
@@ -142,6 +154,8 @@ fun CameraPreview(
             PreviewView(it).apply {
                 this.controller = controller
                 controller.bindToLifecycle(lifecycleOwner)
+                // Ajusta la escala del contenido para que la imagen se ajuste correctamente al tamaño de la vista
+                this.scaleType = PreviewView.ScaleType.FILL_CENTER
             }
         },modifier = modifier
     )

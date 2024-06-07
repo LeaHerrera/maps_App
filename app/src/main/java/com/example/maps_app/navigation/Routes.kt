@@ -6,6 +6,8 @@ sealed class Routes(val route: String) {
     object PantallaLogin: Routes("screen_login")
     object PantallaMenu: Routes("screen_menu")
     object PantallaMapa: Routes("screen_maps")
-    object PantallaAddMarcadores: Routes("screen_addMarker")
+    object PantallaMarcadores: Routes("screen_Marker")
     object PantallaListaMarcadores: Routes("screen_markerList")
+    object PantallaCamara: Routes("screen_camara")
+    object PanttallaGalery: Routes("screen_galery")
 }

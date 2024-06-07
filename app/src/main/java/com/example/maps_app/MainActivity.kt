@@ -11,10 +11,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.maps_app.ViewModel.MyViewModel
 import com.example.maps_app.ViewModel.ViewModelFireBase
 import com.example.maps_app.navigation.Routes
+import com.example.maps_app.ui.screens.GalleryScreen
 import com.example.maps_app.ui.screens.ScreenListMarker
 import com.example.maps_app.ui.screens.ScreenLogin
 import com.example.maps_app.ui.screens.ScreenMaps
-import com.example.maps_app.ui.screens.ScreenAddMarcadores
+import com.example.maps_app.ui.screens.ScreenMarcador
+import com.example.maps_app.ui.screens.ScreenCamera
 import com.example.maps_app.ui.screens.ScreenMenu
 import com.example.maps_app.ui.screens.SplashScreen
 
@@ -35,7 +37,9 @@ class MainActivity : ComponentActivity() {
                 composable(Routes.PantallaLogin.route) { ScreenLogin(navigation, myViewModelFireBase , myViewModel) }
                 composable(Routes.PantallaMenu.route) { ScreenMenu(navigation, myViewModelFireBase, myViewModel) }
                 composable(Routes.PantallaMapa.route) { ScreenMaps(navigation, myViewModelFireBase, myViewModel) }
-                composable(Routes.PantallaAddMarcadores.route) { ScreenAddMarcadores(navigation, myViewModel) }
+                composable(Routes.PantallaCamara.route) { ScreenCamera(navigation, myViewModelFireBase, myViewModel) }
+                composable(Routes.PanttallaGalery.route) { GalleryScreen(navigation, myViewModelFireBase, myViewModel) }
+                composable(Routes.PantallaMarcadores.route) { ScreenMarcador(navigation, myViewModel) }
                 composable(Routes.PantallaListaMarcadores.route) { ScreenListMarker(navigation, myViewModel) }
             }
 
